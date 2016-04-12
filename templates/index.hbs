@@ -468,8 +468,36 @@
         <div class="section" id="assembly">
           <h2 class="center nd_brand">Les rassemblements</h2>
           <div class="container">
-            <p>Nuit Debout, c'est dans toute la France, et maitenant en Europe !</p>
-            <iframe width="100%" height="500px" frameBorder="0" src="https://framacarte.org/fr/map/nuitdebout_2186?scaleControl=false&miniMap=false&scrollWheelZoom=false&zoomControl=true&allowEdit=false&moreControl=true&datalayersControl=false&onLoadPanel=none&captionBar=false#5/46.332/3.340"></iframe>
+            <p>Nuit Debout, c'est dans toute la France, et maintenant en Europe !</p>
+            <div class="row">
+              <div class="col s12 l4">
+                <div class="card">
+                  <iframe width="100%" height="500px" frameBorder="0" src="https://framacarte.org/fr/map/nuitdebout_2420?scaleControl=false&miniMap=false&scrollWheelZoom=false&zoomControl=true&allowEdit=false&moreControl=true&datalayersControl=false&onLoadPanel=none&captionBar=false#5/46.332/3.340"></iframe>
+                </div>
+              </div>
+              <div class="col s12 l4 cities">
+                <div class="card">
+                  <div class="card-content">
+                    <table>
+                      {{#each cities}}
+                      <tr>
+                        {{#each this}}
+                        <td><a href="{{url}}">{{label}}</a></td>
+                        {{/each}}
+                      </tr>
+                      {{/each}}
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col s12 l4">
+                <ul class="collection with-header">
+                  <li class="collection-header"><h6>Comptes rendus</h6></li>
+                  {{#each reports}}
+                  <li class="collection-item"><a href="{{url}}">{{city}} {{label}}</a></li>
+                  {{/each}}
+                </ul>
+            </div>
           </div>
         </div>
 

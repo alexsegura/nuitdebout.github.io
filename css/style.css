@@ -139,7 +139,7 @@ nav ul li:hover, nav ul li:active, nav ul li:focus, nav ul li.active {
 }
 
 .social-icons.facebook,.social-icons.twitter,.social-icons.periscope{
-  -webkit-transition: opacity 0.2s; 
+  -webkit-transition: opacity 0.2s;
     transition: opacity 0.2s;
 }
 .social-icons.facebook:hover{
@@ -197,4 +197,20 @@ nav ul li:hover, nav ul li:active, nav ul li:focus, nav ul li.active {
 
 .parallax img {
   display: block;
+}
+
+.cities table tr td {
+  padding: 0;
+  vertical-align: top;
+}
+.cities table tr td:first-child {
+  text-align: right;
+  padding-right: 15px;
+}
+.cities table tr td:last-child {
+  text-align: left;
+  padding-left: 15px;
+}
+.cities .card-content {
+  padding: 10px;
 }
