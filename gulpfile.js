@@ -4,6 +4,7 @@ var fs = require('fs');
 var serve = require('gulp-serve');
 var slug = require('slug');
 var Handlebars = require('handlebars');
+var moment = require('moment');
 
 // Wiki Bot
 
@@ -100,6 +101,11 @@ function getLastReports(callback)
   })
 }
 
+function revolutionaryCalendar(date)
+{
+  return 31 + moment(date).diff(moment('2016-03-31'), 'days');
+}
+
 /**
  * Retrieves the list of cities from the wiki and creates a JSON file.
  */
@@ -130,18 +136,22 @@ gulp.task('import:reports', function() {
 
 gulp.task('import', ['import:cities', 'import:reports']);
 
+Handlebars.registerPartial('header', fs.readFileSync('templates/partials/header.hbs').toString());
+Handlebars.registerPartial('footer', fs.readFileSync('templates/partials/footer.hbs').toString());
+Handlebars.registerHelper('revolutionaryCalendar', function(date) {
+  return revolutionaryCalendar(date);
+});
+
 /**
  * Generates the index.html file using Handlebars.
  */
 gulp.task('website', function() {
 
-  Handlebars.registerPartial('header', fs.readFileSync('templates/partials/header.hbs').toString());
-  Handlebars.registerPartial('footer', fs.readFileSync('templates/partials/footer.hbs').toString());
-
   var tplIndex = Handlebars.compile(fs.readFileSync('templates/index.hbs').toString());
   var tplCity = Handlebars.compile(fs.readFileSync('templates/city.hbs').toString());
 
   var cities = JSON.parse(fs.readFileSync('data/cities.json').toString());
+  var indexAgenda = JSON.parse(fs.readFileSync('data/index.json').toString());
   var reports = JSON.parse(fs.readFileSync('data/reports.json').toString());
 
   // Create an array of arrays of 2 cities
@@ -159,19 +169,30 @@ gulp.task('website', function() {
   var data = {
     citiesTwoPerLine: citiesTwoPerLine,
     cities: cities,
-    reports: reports
+    reports: reports,
+    schedule: []
   };
+
+  _.each(indexAgenda, function(events, date) {
+    var startOfDay = moment().set({hour: 0, minute: 0, second: 0});
+    if (moment(date).set({hour: 23, minute: 59, second: 59}).isAfter(startOfDay)) {
+      data.schedule.push({
+        date: date,
+        events: events
+      });
+    }
+  })
 
   fs.writeFileSync('index.html', tplIndex(data));
 
-  cities.forEach(function(city) {
-    var dir = './ville/' + slug(city.label, {lower: true});
-    var file = dir + '/index.html';
-    if (!fs.existsSync(dir)){
-      fs.mkdirSync(dir);
-    }
-    fs.writeFileSync(file, tplCity({city: city}));
-  })
+  // cities.forEach(function(city) {
+  //   var dir = './ville/' + slug(city.label, {lower: true});
+  //   var file = dir + '/index.html';
+  //   if (!fs.existsSync(dir)){
+  //     fs.mkdirSync(dir);
+  //   }
+  //   fs.writeFileSync(file, tplCity({city: city}));
+  // })
 });
 
 gulp.task('watch', function() {

@@ -44,6 +44,27 @@
           <h2 class="center nd_brand">Programme</h2>
           <div class="container nd_calendar">
             <div class="row">
+              {{#each schedule}}
+              <div class="col s12 m6">
+                <div class="card">
+                  <div class="card-content">
+                    <h4 class="card-title"><span class="chip blue darken-4 white-text">#{{revolutionaryCalendar this.date}} Mars</span> {{this.date}}</h4>
+                    <dl>
+
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+
+        <!--
+        <div id="calendar" class="section">
+          <h2 class="center nd_brand">Programme</h2>
+          <div class="container nd_calendar">
+            <div class="row">
               <div class="col s12 m6">
                 <div class="card">
                   <div class="card-content">
@@ -168,6 +189,7 @@
             </div>
           </div>
         </div>
+        -->
 
 
 
